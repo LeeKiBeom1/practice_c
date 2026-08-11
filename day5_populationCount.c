@@ -1,34 +1,20 @@
-/*
-Day 5. 1의 개수 세기 (Population Count)
-입력: 32비트 정수
-출력: 켜져 있는 비트(1)의 개수
-제약조건: 루프(for/while) 없이 비트 연산만으로 구현 (Brian Kernighan 알고리즘 등 활용).
-실행결과: 
+#include <stdio.h>
+#include <stdint.h>
 
-=== Day 5: Population Count (Counting Set Bits) ===
+int main(void)
+{
+    uint32_t value = 31;
 
-Case 1: Input 0x00000000
-  [Naive]     : 0
-  [Kernighan] : 0 (Recommended Logic)
-  [SWAR]      : 0 (Strict Loop-free)
-  [Built-in]  : 0
-------------------------------
-Case 2: Input 0x00000007
-  [Naive]     : 3
-  [Kernighan] : 3 (Recommended Logic)
-  [SWAR]      : 3 (Strict Loop-free)
-  [Built-in]  : 3
-------------------------------
-Case 3: Input 0x12345678
-  [Naive]     : 13
-  [Kernighan] : 13 (Recommended Logic)
-  [SWAR]      : 13 (Strict Loop-free)
-  [Built-in]  : 13
-------------------------------
-Case 4: Input 0xFFFFFFFF
-  [Naive]     : 32
-  [Kernighan] : 32 (Recommended Logic)
-  [SWAR]      : 32 (Strict Loop-free)
-  [Built-in]  : 32
-------------------------------
-*/
+    int count = 0;
+
+    while(value != 0) // while(value)도 가능한데 while자체가 bool로 판단하기 때문에 value가 0이 되는 순간 while문을 탈출한다.
+    {
+        printf("%u\n", value);
+        value = value & (value - 1); // value &= value - 1; 도 가능하다.
+        count++;
+        printf("%u\n", value);
+    }
+
+    printf("%d\n", count);
+    return 0;
+}

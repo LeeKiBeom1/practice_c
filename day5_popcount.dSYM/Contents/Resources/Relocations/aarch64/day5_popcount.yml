@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/lego/Developer/practice_C/redpill/day5_popcount'
+relocations:     []
+...
