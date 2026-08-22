@@ -1,5 +1,5 @@
-#include <stddef.h>  // size_t
-#include <stdio.h>   // printf
+#include <stddef.h>
+#include <stdio.h>   
 
 #define TOKEN_BUFFER_SIZE 64
 
@@ -10,6 +10,7 @@ const char *safe_strtok(const char *string, char delimiter) {
     static const char *current = NULL;
     // 토큰도 static배열 이므로 하나의 토큰을 읽고 다음 토큰을 읽으면
     // 이전 토큰 내용은 새값으로 덮어 써진다.
+    // static을 붙여서 함수가 재호출 되도 값이 남아 있도록 해두었다.
     static char token[TOKEN_BUFFER_SIZE];
 
     // 새 문자열이 들어오면 탐색 위치를 문자열의 시작점으로 초기화한다.

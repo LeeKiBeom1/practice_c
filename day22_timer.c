@@ -1,7 +1,7 @@
-#include <stdbool.h>  // bool
-#include <stdint.h>   // uint32_t
-#include <stdio.h>    // printf
-#include <stdlib.h>   // malloc, free
+#include <stdbool.h>  
+#include <stdint.h>   
+#include <stdio.h>  
+#include <stdlib.h>
 
 typedef void (*TimerCallback)(int timer_id);
 
