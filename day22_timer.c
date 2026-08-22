@@ -44,9 +44,6 @@ void print_timer_list(void) {
 // bool 인 이유?
 // 타이머 노드는 malloc으로 만드는데
 // 메모리 할당에 성공하면 true 실패하면 false를 반환하기 때문이다.
-// set_timer에 역할이 아주많은데
-// 여러개의 타이머가 들어오기 때문에 
-// 각 타이머의 
 bool set_timer(int id, uint32_t milliseconds) {
     // 먼저 malloc로 타이머를 담을 공간을 설정
     TimerNode *new_timer = malloc(sizeof(*new_timer));
@@ -63,8 +60,7 @@ bool set_timer(int id, uint32_t milliseconds) {
     TimerNode *previous = NULL;
     TimerNode *current = timer_head;
 
-    // 앞 노드들의 상대 시간을 빼며 삽입할 위치를 찾는다.
-    // 새 타이머의 시간이 현재 노드의 시간보다 크거나 같으면
+    // 새 타이머의 만료 시간이 현재 노드의 시간보다 크거나 같으면
     // 현재 노드를 지나가고, 더작으면 현재 노드 앞에서 멈춘다.
     // 예시를 들면
     /* 
@@ -122,6 +118,7 @@ void tick(void) {
     }
 
     if (timer_head->delta_time > 0) {
+        // 정상 작동하면 헤드의 델타타임을 0이될때까지 -1씩 깍는다.
         timer_head->delta_time--;
     }
 
@@ -174,15 +171,14 @@ int main(void) {
 }
 
 
-// 요약해보자면
-// 타이머를 등록하고
-// 시간이 흐를 때마다 head의 시간만 감소하고
-// head의 시간이 0이되면 콜백 실행후 제거한다.
+// 타이머 등록 → 시간 감소 → 만료 → 콜백 실행 → 제거
 
 // 리스트에는 실제 시간이 아닌 앞 타이머와의 시간차이를 저장하고
 // 매 tick마다 모든 타이머가 아닌 맨 앞만 감소시킨다
-// timer_head 요거 하나가 모든 타이머의 시간차이를 계산해서 
-// 타이머 리스트에 시작점을 가리키고 있다가
-// 순서대로 0이되면 해당 타이머를 만료시키고 다음 노드의 헤드로 넘어가는 식이다
+// timer_head 는 가장 먼저 만료될 타이머를 가리킨다.
+// 0이되면 해당 타이머를 만료시키고 다음 노드의 헤드로 넘어가는 식이다
 
 // delta time은 타이머하나의 만료시간이 아닌 만료시간이 빠른 순서로 그다음 순서의 만료시간을 뺀만큼씩만 값이 들어가있게된다.
+// 각노드에 10 5 15ms를 그대로 저장하는 게 아닌 5 5 5ms 이렇게 저장되게끔 하는것이다.
+
+// tick()는 timer_head로 가장 먼저인 타이머를 찾아 delta_time을 1씩 깍으면서 출력한다
